@@ -1,0 +1,353 @@
+/* === RESET & BASE === */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f8;
+  overflow: hidden;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 230px;
+  height: 100vh; /* Ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 20px 15px; /* ligeramente reducido */
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  overflow: hidden; /* importante para evitar scroll */
+}
+
+.sidebar h2 {
+  margin-bottom: 25px; /* menos margen */
+  font-size: 22px;
+  text-align: center;
+  color: #3b7dd8;
+  letter-spacing: 1px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px; /* menos padding */
+  margin-bottom: 8px; /* menos margen entre enlaces */
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  font-size: 14px; /* tamaño reducido pero legible */
+}
+
+.sidebar a:hover {
+  background-color: #e6ecf3;
+}
+
+.sidebar a.active {
+  background-color: #d0e3ff;
+  font-weight: bold;
+  color: #1d4dbf;
+}
+
+
+/* === MAIN === */
+.main {
+  flex: 1;
+  padding: 40px;
+  animation: fadeInRight 0.8s ease;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+@keyframes fadeInRight {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+h2 {
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+p {
+  color: #555;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+/* === TABLES === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+  background-color: #d0e3ff;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+tr {
+  border-bottom: 1px solid #eee;
+}
+
+/* === BUTTONS & LINKS === */
+.btn,
+.btn-link,
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.edit-btn {
+  background-color: #3b7dd8;
+  color: white;
+  margin-right: 5px;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* === MESSAGES === */
+.message {
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+/* === FORMS === */
+form label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b7dd8;
+}
+
+select[multiple] {
+  height: 120px;
+}
+
+button {
+  margin-top: 25px;
+  padding: 12px 20px;
+  background-color: #3b7dd8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #326ec0;
+}
+
+/* === SELECT2 CUSTOM === */
+.select2-container {
+  width: 100% !important;
+}
+
+.select2-selection {
+  height: 42px !important;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.select2-selection__rendered {
+  line-height: 24px !important;
+}
+
+.select2-selection__arrow {
+  height: 100% !important;
+}
+
+.select2-container .select2-selection--single {
+  height: 40px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 26px;
+  color: #2c3e50;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 38px;
+  right: 10px;
+}
+
+.select2-dropdown {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* === PAGINACIÓN ESTILO UNIFICADO === */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination a,
+.pagination span {
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  background-color: #f0f2f5;
+  color: #2c3e50;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid #dcdfe3;
+}
+
+.pagination a:hover {
+  background-color: #d0e3ff;
+  color: #1d4dbf;
+}
+
+.pagination .current,
+.pagination a.active {
+  background-color: #3b7dd8;
+  color: white;
+  font-weight: bold;
+  pointer-events: none;
+  border: 1px solid #3b7dd8;
+}
+
+/* === DASHBOARD CARDS === */
+.module-cards {
+  display: flex;
+  gap: 20px; /* reducido para evitar desborde vertical */
+  flex-wrap: wrap;
+  margin-bottom: 20px; /* espacio extra para separar del resumen */
+  flex: 1; /* para que use el espacio disponible */
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 20px; /* reducido para ahorrar altura */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  width: 210px; /* levemente reducido para mejor ajuste */
+  text-decoration: none;
+  color: #2c3e50;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 18px;
+  color: #3b7dd8;
+  font-weight: bold;
+}
+
+/* === CONTENEDOR FLEX PARA INICIO === */
+.contenido-inicio {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* === RESUMEN DEL INICIO === */
+.resumen {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  max-width: 280px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.resumen-lateral {
+  margin-top: 0; /* elimina separación vertical si está a la par */
+}
+
+.resumen p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+
+
+/* === RECOMENDACIONES === */
+.recommendation {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.recommendation strong {
+  color: #3b7dd8;
+}
+  

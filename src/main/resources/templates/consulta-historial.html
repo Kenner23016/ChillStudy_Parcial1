@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ver Historial - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='historial-lista'"></div>
+
+  <div class="main">
+    <h2>Historial Académico Registrado</h2>
+
+    <!-- Mensajes -->
+    <div id="mensaje" th:if="${mensaje}" class="message" style="color: green;">
+      <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${error}" class="message" style="color: red;">
+      <p th:text="${error}"></p>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const mensaje = document.getElementById("mensaje");
+        if (mensaje) mensaje.style.display = "none";
+      }, 10000);
+    </script>
+
+    <!-- Tabla -->
+    <table>
+      <thead>
+        <tr>
+          <th>Estudiante</th>
+          <th>Curso</th>
+          <th>Calificación</th>
+          <th>Observaciones</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="h : ${historiales}">
+          <td th:text="${h.estudiante.nombres}">Nombre Estudiante</td>
+          <td th:text="${h.curso.nombre}">Curso</td>
+          <td th:text="${h.calificacion}">0.0</td>
+          <td th:text="${h.observaciones}">Observaciones...</td>
+          <td>
+            <a th:href="@{'/historial/editar/' + ${h.id}}" class="btn edit-btn">✏️ Editar</a>
+            <button type="button"
+                    class="btn delete-btn"
+                    th:attr="data-url=@{'/historial/eliminar/' + ${h.id}}"
+                    onclick="confirmarEliminacion(this)">
+              🗑️ Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginación unificada -->
+    <div class="pagination" th:if="${totalPages > 1}">
+      <a th:if="${currentPage > 0}" th:href="@{|?page=${currentPage - 1}|}">« Anterior</a>
+
+      <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+         th:href="@{|?page=${i}|}"
+         th:text="${i + 1}"
+         th:classappend="${i == currentPage} ? 'active' : ''"></a>
+
+      <a th:if="${currentPage < totalPages - 1}" th:href="@{|?page=${currentPage + 1}|}">Siguiente »</a>
+    </div>
+
+  </div>
+
+  <script>
+    function confirmarEliminacion(elemento) {
+      const url = elemento.getAttribute("data-url");
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción eliminará el historial académico.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

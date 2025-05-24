@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Historial - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+
+  <!-- Select2 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- Tu hoja de estilos global -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='historial-nuevo'"></div>
+
+      
+      
+
+  <div class="main">
+    <h2>Registrar Historial Académico</h2>
+
+    <!-- Mostrar mensaje si existe -->
+    <div id="mensaje" th:if="${mensaje}" style="color: green; font-weight: bold; margin-bottom: 15px;">
+      <p th:text="${mensaje}"></p>
+    </div>
+
+    <form method="post" th:object="${historial}" th:action="@{/historial/guardar}">
+      <input type="hidden" th:field="*{id}">
+
+      <label for="estudiante">Estudiante:</label>
+      <select id="estudiante" class="select2" th:field="*{estudiante.id}">
+        <option value="">Seleccione un estudiante</option>
+        <option th:each="e : ${estudiantes}" th:value="${e.id}" th:text="${e.nombres}"></option>
+      </select>
+
+      <label for="curso">Curso:</label>
+      <select id="curso" class="select2" th:field="*{curso.id}">
+        <option value="">Seleccione un curso</option>
+        <option th:each="c : ${cursos}" th:value="${c.id}" th:text="${c.nombre}"></option>
+      </select>
+
+      <label for="calificacion">Calificación:</label>
+      <input type="number" th:field="*{calificacion}" min="0" max="10" step="0.1" placeholder="Ej: 8.5">
+
+      <label for="observaciones">Observaciones:</label>
+      <textarea th:field="*{observaciones}" rows="4" placeholder="Comentarios sobre el rendimiento..."></textarea>
+
+      <button type="submit">Guardar Registro</button>
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2({
+        placeholder: "Buscar...",
+        allowClear: true
+      });
+    });
+
+    // Ocultar mensaje tras 10 segundos
+    setTimeout(() => {
+      const mensaje = document.getElementById("mensaje");
+      if (mensaje) mensaje.style.display = "none";
+    }, 10000);
+  </script>
+
+</body>
+</html>

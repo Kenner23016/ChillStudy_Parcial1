@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ver Intereses - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='interes-lista'"></div>
+
+  <div class="main">
+    <h2>Intereses Académicos</h2>
+
+    <!-- Mensajes -->
+    <div id="mensaje" th:if="${param.mensaje}" class="message" style="color: green;">
+      <p th:text="${param.mensaje}"></p>
+    </div>
+    <div id="error" th:if="${param.error}" class="message" style="color: red;">
+      <p th:text="${param.error}"></p>
+    </div>
+    <div id="mensaje" th:if="${mensaje}" class="message" style="color: green;">
+      <p th:text="${mensaje}"></p>
+    </div>
+    <div id="error" th:if="${error}" class="message" style="color: red;">
+      <p th:text="${error}"></p>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const mensaje = document.getElementById("mensaje");
+        const error = document.getElementById("error");
+        if (mensaje) mensaje.style.display = "none";
+        if (error) error.style.display = "none";
+      }, 10000);
+    </script>
+
+    <!-- Tabla -->
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre del Interés</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="interes : ${intereses}">
+          <td th:text="${interes.nombre}"></td>
+          <td>
+            <a th:href="@{'/intereses/editar/' + ${interes.id}}" class="btn edit-btn">✏️ Editar</a>
+            <button type="button"
+                    class="btn delete-btn"
+                    th:attr="data-url=@{'/intereses/eliminar/' + ${interes.id}}"
+                    onclick="confirmarEliminacion(this)">
+              🗑️ Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <div class="pagination" th:if="${totalPages > 1}">
+      <a th:if="${currentPage > 0}" th:href="@{|/intereses/lista?page=${currentPage - 1}|}">⬅️ Anterior</a>
+
+      <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+         th:href="@{|/intereses/lista?page=${i}|}"
+         th:text="${i + 1}"
+         th:classappend="${i == currentPage} ? 'active'"></a>
+
+      <a th:if="${currentPage < totalPages - 1}" th:href="@{|/intereses/lista?page=${currentPage + 1}|}">Siguiente ➡️</a>
+    </div>
+
+    <!-- Botón para nuevo interés -->
+    <a th:href="@{/intereses/nuevo}" class="btn edit-btn" style="margin-top: 20px; display: inline-block;">➕ Nuevo Interés</a>
+  </div>
+
+  <script>
+    function confirmarEliminacion(elemento) {
+      const url = elemento.getAttribute("data-url");
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
