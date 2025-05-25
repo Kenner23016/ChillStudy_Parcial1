@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recomendaciones - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <!-- Tu hoja de estilos global -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='recomendaciones'"></div>
+  <div th:replace="fragmentos/logout :: logout-button"></div>
+
+
+      
+      
+
+  <div class="main">
+    <h2>Recomendaciones Académicas</h2>
+
+    <div class="recommendation">
+      <strong>🔍 Basado en tus intereses:</strong> Se recomienda explorar cursos de <em>Inteligencia Artificial</em> y <em>Ciberseguridad</em> debido a tu interés por tecnologías emergentes.
+    </div>
+
+    <div class="recommendation">
+      <strong>📈 Basado en tu rendimiento:</strong> Tus mejores calificaciones han sido en <em>Matemáticas</em>, por lo que podrías considerar asignaturas de Análisis de Datos o Finanzas Computacionales.
+    </div>
+
+    <div class="recommendation">
+      <strong>💼 Perfil profesional:</strong> Estás alineado con el perfil de <em>Desarrollador Backend</em>. Se sugiere fortalecer conocimientos en Bases de Datos y APIs REST.
+    </div>
+  </div>
+
+</body>
+</html>

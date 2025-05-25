@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Curso - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+
+  <!-- Tu hoja de estilos global -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='curso-nuevo'"></div>
+  <div th:replace="fragmentos/logout :: logout-button"></div>
+
+
+      
+
+  <div class="main">
+    <h2 th:text="${curso.id == null ? 'Registrar Curso' : 'Editar Curso'}"></h2>
+
+    <!-- ✅ Mensaje de éxito o error -->
+    <div id="mensaje" th:if="${mensaje}" style="color: green; font-weight: bold; margin-bottom: 15px;">
+      <p th:text="${mensaje}"></p>
+    </div>
+    <div id="mensaje" th:if="${error}" style="color: red; font-weight: bold; margin-bottom: 15px;">
+      <p th:text="${error}"></p>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const mensaje = document.getElementById("mensaje");
+        if (mensaje) mensaje.style.display = "none";
+      }, 10000);
+    </script>
+
+    <!-- 📋 Formulario -->
+    <form method="post" th:action="@{/cursos/guardar}" th:object="${curso}">
+      <input type="hidden" th:field="*{id}">
+      <label for="nombre">Nombre del Curso:</label>
+      <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Álgebra Lineal" required>
+      <button type="submit">Guardar Curso</button>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ver Estudiantes - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragmentos/sidebar :: sidebar}" th:with="active='estudiante-lista'"></div>
+<div th:replace="fragmentos/logout :: logout-button"></div>
+
+
+<div class="main">
+  <h2>Estudiantes Registrados</h2>
+
+  <!-- Mensajes -->
+  <div id="mensaje" th:if="${param.mensaje}" class="message" style="color: green;">
+    <p th:text="${param.mensaje}"></p>
+  </div>
+  <div id="error" th:if="${param.error}" class="message" style="color: red;">
+    <p th:text="${param.error}"></p>
+  </div>
+  <div id="mensaje" th:if="${mensaje}" class="message" style="color: green;">
+    <p th:text="${mensaje}"></p>
+  </div>
+  <div id="error" th:if="${error}" class="message" style="color: red;">
+    <p th:text="${error}"></p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      const mensaje = document.getElementById("mensaje");
+      const error = document.getElementById("error");
+      if (mensaje) mensaje.style.display = "none";
+      if (error) error.style.display = "none";
+    }, 10000);
+  </script>
+
+  <!-- Tabla de estudiantes -->
+  <table>
+    <thead>
+      <tr>
+        <th>Carnet</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Carrera</th>
+        <th>Intereses</th>
+
+        <!-- Mostrar columna de acciones solo a Admin -->
+        <th th:if="${roles != null and roles.contains('Admin')}">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="e : ${estudiantes}">
+        <td th:text="${e.carnet}"></td>
+        <td th:text="${e.nombres}"></td>
+        <td th:text="${e.correo}"></td>
+        <td th:text="${e.carrera.nombre}"></td>
+        <td>
+          <span th:each="interes, iterStat : ${e.intereses}"
+                th:text="${interes.nombre + (iterStat.last ? '' : ', ')}">
+          </span>
+        </td>
+
+        <!-- Mostrar botones solo a Admin -->
+        <td th:if="${roles != null and roles.contains('Admin')}">
+          <a th:href="@{'/estudiantes/editar/' + ${e.id}}" class="btn-link edit-btn">✏️ Editar</a>
+          <button type="button" class="btn-link delete-btn"
+                  th:attr="data-url=@{'/estudiantes/eliminar/' + ${e.id}}"
+                  onclick="confirmarEliminacion(this)">
+            🗑️ Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  <div class="pagination" th:if="${totalPages > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{|?page=${currentPage - 1}|}">« Anterior</a>
+    <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+       th:href="@{|?page=${i}|}"
+       th:text="${i + 1}"
+       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{|?page=${currentPage + 1}|}">Siguiente »</a>
+  </div>
+</div>
+
+<script>
+  function confirmarEliminacion(elemento) {
+    const url = elemento.getAttribute("data-url");
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡Esta acción no se puede deshacer!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = url;
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Acceso Denegado</title>
+  <style>
+    body {
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .error-box {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .error-box h1 {
+      font-size: 3em;
+      color: #e74c3c;
+    }
+    .error-box p {
+      font-size: 1.2em;
+      margin: 20px 0;
+    }
+    .error-box a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .error-box a:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-box">
+    <h1>403 - Acceso Denegado</h1>
+    <p>No tienes permisos para acceder a esta página.</p>
+    <a th:href="@{/inicio}">Volver al Inicio</a>
+  </div>
+</body>
+</html>

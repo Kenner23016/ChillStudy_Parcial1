@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Estudiante - ChillStudy</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+
+  <!-- Select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="fragmentos/sidebar :: sidebar" th:with="active='estudiante-nuevo'"></div>
+<div th:replace="fragmentos/logout :: logout-button"></div>
+
+
+<div class="main">
+  <h2 th:text="${estudiante.id} != null ? 'Editar Estudiante' : 'Registrar Estudiante'"></h2>
+
+  <div id="mensaje" th:if="${mensaje}" class="message" style="color: green;">
+    <p th:text="${mensaje}"></p>
+  </div>
+
+  <form method="post" th:object="${estudiante}" th:action="@{/estudiantes/guardar}">
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="carnet">Carnet:</label>
+    <input type="text" id="carnet" th:field="*{carnet}" required>
+
+    <label for="nombres">Nombres Completos:</label>
+    <input type="text" id="nombres" th:field="*{nombres}" required>
+
+    <label for="correo">Correo Electrónico:</label>
+    <input type="email" id="correo" th:field="*{correo}" required>
+
+    <label for="carrera">Carrera:</label>
+    <select id="carrera" th:field="*{carrera.id}" class="select2" required>
+      <option value="">Seleccione una carrera</option>
+      <option th:each="c : ${carreras}" th:value="${c.id}" th:text="${c.nombre}"></option>
+    </select>
+
+    <label for="intereses">Intereses Académicos:</label>
+    <select id="intereses" th:field="*{intereses}" multiple class="select2">
+      <option th:each="i : ${intereses}" th:value="${i.id}" th:text="${i.nombre}"></option>
+    </select>
+
+    <button type="submit">Guardar Estudiante</button>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.select2').select2();
+  });
+
+  setTimeout(() => {
+    const mensaje = document.getElementById("mensaje");
+    if (mensaje) mensaje.style.display = "none";
+  }, 10000);
+</script>
+</body>
+</html>
