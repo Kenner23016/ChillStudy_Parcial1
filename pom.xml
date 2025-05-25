@@ -12,6 +12,13 @@
         <relativePath/>
     </parent>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+            </repository>
+    </repositories>
+
     <groupId>com.libcode.crud</groupId>
     <artifactId>crud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -90,6 +97,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- cdimascio -->
+
+        <dependency>
+            <groupId>com.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>master-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
