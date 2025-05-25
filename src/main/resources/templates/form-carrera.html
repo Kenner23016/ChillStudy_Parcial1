@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${carrera.id == null} ? 'Registrar Carrera' : 'Editar Carrera'">Registrar Carrera</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <!-- Tu hoja de estilos global -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='carrera-nuevo'"></div>
+  <div th:replace="fragmentos/logout :: logout-button"></div>
+
+
+      
+
+  <div class="main">
+    <h2 th:text="${carrera.id == null} ? 'Registrar Carrera' : 'Editar Carrera'"></h2>
+
+    <!-- Mensaje -->
+    <div id="mensaje" th:if="${mensaje}" style="color: green; font-weight: bold; margin-bottom: 15px;">
+      <p th:text="${mensaje}"></p>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const mensaje = document.getElementById("mensaje");
+        if (mensaje) {
+          mensaje.style.display = "none";
+        }
+      }, 10000);
+    </script>
+
+    <form method="post" th:action="@{/carreras/guardar}" th:object="${carrera}">
+      <input type="hidden" th:field="*{id}" />
+
+      <label for="nombre">Nombre de la Carrera:</label>
+      <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Ingeniería en Sistemas" required />
+
+      <button type="submit">Guardar Carrera</button>
+    </form>
+  </div>
+
+</body>
+</html>

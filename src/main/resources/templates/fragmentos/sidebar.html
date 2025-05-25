@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<div th:fragment="sidebar">
+  <div class="sidebar">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 35px;">
+      <img th:src="@{/img/logo.png}" alt="Logo" style="height: 40px; width: 40px;">
+      <h2 style="margin: 0;">ChillStudy</h2>
+    </div>
+
+    <a th:href="@{/inicio}" th:classappend="${active == 'inicio'} ? 'active'"><span>🏠</span> Inicio</a>
+
+    <!-- ✅ Menú exclusivo para rol ADMIN -->
+    <div th:if="${roles != null and roles.contains('Admin')}">
+      <a th:href="@{/estudiantes/nuevo}" th:classappend="${active == 'estudiante-nuevo'} ? 'active'"><span>🧑‍🎓</span> Registrar Estudiante</a>
+      <a th:href="@{/historial/nuevo}" th:classappend="${active == 'historial-nuevo'} ? 'active'"><span>📚</span> Registrar Historial</a>
+      <a th:href="@{/cursos/nuevo}" th:classappend="${active == 'curso-nuevo'} ? 'active'"><span>📝</span> Registrar Curso</a>
+      <a th:href="@{/carreras/nuevo}" th:classappend="${active == 'carrera-nuevo'} ? 'active'"><span>🎓</span> Registrar Carrera</a>
+      <a th:href="@{/intereses/nuevo}" th:classappend="${active == 'interes-nuevo'} ? 'active'"><span>✨</span> Registrar Interés</a>
+    </div>
+
+    <!-- ✅ Menú visible para todos -->
+    <a th:href="@{/recomendaciones}" th:classappend="${active == 'recomendaciones'} ? 'active'"><span>💡</span> Recomendaciones</a>
+    <a th:href="@{/estudiantes/lista}" th:classappend="${active == 'estudiante-lista'} ? 'active'"><span>📋</span> Ver Estudiantes</a>
+    <a th:href="@{/historial/lista}" th:classappend="${active == 'historial-lista'} ? 'active'"><span>📑</span> Ver Historial</a>
+    <a th:href="@{/cursos/lista}" th:classappend="${active == 'curso-lista'} ? 'active'"><span>📘</span> Ver Cursos</a>
+    <a th:href="@{/carreras/lista}" th:classappend="${active == 'carrera-lista'} ? 'active'"><span>📚</span> Ver Carreras</a>
+    <a th:href="@{/intereses/lista}" th:classappend="${active == 'interes-lista'} ? 'active'"><span>⭐</span> Ver Intereses</a>
+  </div>
+</div>

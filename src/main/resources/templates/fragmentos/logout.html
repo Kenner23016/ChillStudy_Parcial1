@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <div th:fragment="logout-button">
+    <div style="position: absolute; top: 20px; right: 20px; z-index: 999;">
+      <form th:action="@{/logout}" method="post">
+        <button type="submit"
+                style="display: inline-block; padding: 8px 16px; background-color: #e74c3c;
+                       color: white; text-decoration: none; border-radius: 6px;
+                       font-weight: bold; border: none; cursor: pointer;">
+          🔒 Cerrar sesión
+        </button>
+      </form>
+    </div>
+  </div>
+</html>

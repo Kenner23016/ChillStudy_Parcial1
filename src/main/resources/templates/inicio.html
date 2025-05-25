@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - ChillStudy</title>
+  <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <style>
+    .logout-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #e74c3c;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .logout-container {
+      float: right;
+      margin-top: 10px;
+    }
+
+    .module-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #2c3e50;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div th:replace="fragmentos/sidebar :: sidebar" th:with="active='inicio'"></div>
+      <!-- Botón de logout -->
+<div th:replace="fragmentos/logout :: logout-button"></div>
+
+  <div class="main">
+
+
+
+    <h2>Bienvenido a ChillStudy</h2>
+    <p th:if="${nombreUsuario}">👋 Hola, <strong th:text="${nombreUsuario}">Usuario</strong></p>
+    <p>
+      Este sistema te ayuda a encontrar cursos y áreas de estudio ideales para ti, basándose en tu historial académico. Usa el menú lateral o accede rápidamente desde aquí:
+    </p>
+
+    <div class="contenido-inicio">
+      <div class="module-cards">
+
+        <!-- ADMIN: Registrar -->
+        <a th:if="${#lists.contains(roles, 'Admin')}" th:href="@{/estudiantes/nuevo}" class="card">
+          <div class="card-icon">🧑‍🎓</div>
+          <div class="card-title">Registrar Estudiante</div>
+        </a>
+        <a th:if="${#lists.contains(roles, 'Admin')}" th:href="@{/historial/nuevo}" class="card">
+          <div class="card-icon">📚</div>
+          <div class="card-title">Registrar Historial</div>
+        </a>
+        <a th:if="${#lists.contains(roles, 'Admin')}" th:href="@{/cursos/nuevo}" class="card">
+          <div class="card-icon">📝</div>
+          <div class="card-title">Registrar Curso</div>
+        </a>
+        <a th:if="${#lists.contains(roles, 'Admin')}" th:href="@{/carreras/nuevo}" class="card">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Registrar Carrera</div>
+        </a>
+        <a th:if="${#lists.contains(roles, 'Admin')}" th:href="@{/intereses/nuevo}" class="card">
+          <div class="card-icon">✨</div>
+          <div class="card-title">Registrar Interés</div>
+        </a>
+
+        <!-- Acceso para todos los roles -->
+        <a th:href="@{/estudiantes/lista}" class="card">
+          <div class="card-icon">📋</div>
+          <div class="card-title">Ver Estudiantes</div>
+        </a>
+        <a th:href="@{/historial/lista}" class="card">
+          <div class="card-icon">📑</div>
+          <div class="card-title">Ver Historial</div>
+        </a>
+        <a th:href="@{/recomendaciones}" class="card">
+          <div class="card-icon">💡</div>
+          <div class="card-title">Recomendaciones</div>
+        </a>
+        <a th:href="@{/cursos/lista}" class="card">
+          <div class="card-icon">📘</div>
+          <div class="card-title">Ver Cursos</div>
+        </a>
+        <a th:href="@{/carreras/lista}" class="card">
+          <div class="card-icon">📚</div>
+          <div class="card-title">Ver Carreras</div>
+        </a>
+        <a th:href="@{/intereses/lista}" class="card">
+          <div class="card-icon">⭐</div>
+          <div class="card-title">Ver Intereses</div>
+        </a>
+
+      </div>
+
+      <!-- Resumen lateral -->
+      <div class="resumen resumen-lateral" style="margin-top: 30px;">
+        <h3>📊 Resumen General</h3>
+        <p>Total de Estudiantes: <strong th:text="${totalEstudiantes}">0</strong></p>
+        <p>Total de Cursos: <strong th:text="${totalCursos}">0</strong></p>
+        <p>Total de Historiales: <strong th:text="${totalHistoriales}">0</strong></p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
