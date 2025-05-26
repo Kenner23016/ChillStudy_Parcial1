@@ -3,7 +3,6 @@ package com.libcode.crud.crud.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -44,7 +43,7 @@ public class SecurityConfig {
                 )
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("https://dev-w0qhs7x17m1xpogz.us.auth0.com/v2/logout?client_id=20x7hCr9qisvRBmlirv6muOirzAhY2aG&returnTo=http://localhost:8081/")
+                .logoutSuccessUrl("https://dev-w0qhs7x17m1xpogz.us.auth0.com/v2/logout?client_id=20x7hCr9qisvRBmlirv6muOirzAhY2aG&returnTo=https://chillstudy-parcial1.onrender.com")
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
