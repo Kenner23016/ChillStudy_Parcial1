@@ -39,28 +39,50 @@
     }, 10000);
   </script>
 
+  <form method="get" th:action="@{/cursos/lista}" class="filter-form">
+  <select name="categoria">
+    <option th:value=""
+            th:selected="${categoriaSeleccionada == null}">
+      Todas las categorías
+    </option>
+    <option th:each="cat : ${categorias}"
+            th:value="${cat}"
+            th:text="${cat}"
+            th:selected="${cat == categoriaSeleccionada}">
+    </option>
+  </select>
+
+  <select name="dificultad">
+    <option th:value=""
+            th:selected="${dificultadSeleccionada == null}">
+      Todos los niveles
+    </option>
+    <option th:each="nivel : ${niveles}"
+            th:value="${nivel}"
+            th:text="${#strings.capitalize(nivel.name().toLowerCase())}"
+            th:selected="${nivel == dificultadSeleccionada}">
+    </option>
+  </select>
+
+  <button type="submit">Filtrar</button>
+</form>
+
   <!-- Tabla de cursos -->
   <table>
-    <thead>
-      <tr>
-        <th>Nombre del Curso</th>
-        <th th:if="${roles != null and roles.contains('Admin')}">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="curso : ${cursos}">
-        <td th:text="${curso.nombre}"></td>
-        <td th:if="${roles != null and roles.contains('Admin')}">
-          <a th:href="@{'/cursos/editar/' + ${curso.id}}" class="btn edit-btn">✏️ Editar</a>
-          <button type="button"
-                  class="btn delete-btn"
-                  th:attr="data-url=@{'/cursos/eliminar/' + ${curso.id}}"
-                  onclick="confirmarEliminacion(this)">
-            🗑️ Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
+    <th>Nombre</th>
+    <th>Categoría</th>           <!-- ➕ -->
+    <th>Nivel</th>               <!-- ➕ -->
+    <th th:if="${roles != null and roles.contains('Admin')}">Acciones</th>
+  </tr>
+</thead>
+<tbody>
+  <tr th:each="curso : ${cursos}">
+    <td th:text="${curso.nombre}"></td>
+    <td th:text="${curso.categoria}"></td>          <!-- ➕ -->
+    <td th:text="${#strings.capitalize(curso.dificultad.name().toLowerCase())}"></td> <!-- ➕ -->
+    <td th:if="${roles != null and roles.contains('Admin')}"> … </td>
+  </tr>
+</tbody>
   </table>
 
   <!-- Paginación estandarizada -->

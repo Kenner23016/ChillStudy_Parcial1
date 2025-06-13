@@ -1,15 +1,23 @@
 package com.libcode.crud.crud.users.controllers;
 
-import com.libcode.crud.crud.users.entities.Curso;
-import com.libcode.crud.crud.users.repository.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.libcode.crud.crud.users.entities.Curso;
+import com.libcode.crud.crud.users.entities.NivelDificultad;
+import com.libcode.crud.crud.users.repository.CursoRepository;
 
 @Controller
 @RequestMapping("/cursos")
@@ -18,10 +26,10 @@ public class CursoWebController {
     @Autowired
     private CursoRepository cursoRepo;
 
-    // Mostrar formulario para crear nuevo curso
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("curso", new Curso());
+        model.addAttribute("niveles", NivelDificultad.values()); // ➡ combo dificultad
         return "form-curso";
     }
 
@@ -59,6 +67,7 @@ public class CursoWebController {
         Curso curso = cursoRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID de curso inválido: " + id));
         model.addAttribute("curso", curso);
+        model.addAttribute("niveles", NivelDificultad.values());
         return "form-curso";
     }
 
@@ -73,4 +82,42 @@ public class CursoWebController {
         }
         return "redirect:/cursos/lista";
     }
+
+    /* ---------- LISTA con FILTROS ---------- */
+
+    @GetMapping("/lista")
+    public String mostrarCursos(
+            Model model,
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) NivelDificultad dificultad,
+            @RequestParam(defaultValue = "0") int page) {
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("nombre"));
+        Page<Curso> cursosPage;
+
+        if (categoria != null && !categoria.isBlank() && dificultad != null) {
+            cursosPage = cursoRepo.findByCategoriaIgnoreCaseAndDificultad(categoria, dificultad, pageable);
+        } else if (categoria != null && !categoria.isBlank()) {
+            cursosPage = cursoRepo.findByCategoriaIgnoreCase(categoria, pageable);
+        } else if (dificultad != null) {
+            cursosPage = cursoRepo.findByDificultad(dificultad, pageable);
+        } else {
+            cursosPage = cursoRepo.findAll(pageable);
+        }
+
+        model.addAttribute("cursos", cursosPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", cursosPage.getTotalPages());
+
+        /* Para rellenar y mantener filtros seleccionados */
+        model.addAttribute("categoriaSeleccionada", categoria);
+        model.addAttribute("dificultadSeleccionada", dificultad);
+
+        model.addAttribute("categorias", cursoRepo.findDistinctCategorias());
+        model.addAttribute("niveles", NivelDificultad.values());
+
+        return "consulta-cursos";
+    }
+
+    /* ---------- (resto de métodos sin cambios) ---------- */
 }

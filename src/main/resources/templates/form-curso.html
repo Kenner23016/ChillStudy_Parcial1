@@ -36,11 +36,25 @@
 
     <!-- 📋 Formulario -->
     <form method="post" th:action="@{/cursos/guardar}" th:object="${curso}">
-      <input type="hidden" th:field="*{id}">
-      <label for="nombre">Nombre del Curso:</label>
-      <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Álgebra Lineal" required>
-      <button type="submit">Guardar Curso</button>
-    </form>
+  <input type="hidden" th:field="*{id}"/>
+
+  <label for="nombre">Nombre del Curso:</label>
+  <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Álgebra Lineal" required/>
+
+  <label for="categoria">Categoría:</label>
+  <input type="text" id="categoria" th:field="*{categoria}" placeholder="Ej: Programación" required/>
+
+  <label for="dificultad">Nivel de Dificultad:</label>
+  <select id="dificultad" th:field="*{dificultad}">
+    <option value="" disabled th:selected="${curso.dificultad == null}">Selecciona…</option>
+    <option th:each="nivel : ${niveles}"
+            th:value="${nivel}"
+            th:text="${#strings.capitalize(nivel.name().toLowerCase())}">
+    </option>
+  </select>
+
+  <button type="submit">Guardar Curso</button>
+</form>
   </div>
 
 </body>
