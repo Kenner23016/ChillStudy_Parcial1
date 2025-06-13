@@ -49,6 +49,7 @@ public class CursoWebController {
     }
 
     // Mostrar lista de cursos con paginación
+    /*
     @GetMapping("/lista")
     public String mostrarCursos(Model model, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 5); // 5 cursos por página
@@ -60,6 +61,7 @@ public class CursoWebController {
 
         return "consulta-cursos";
     }
+         */
 
     // Editar curso
     @GetMapping("/editar/{id}")
