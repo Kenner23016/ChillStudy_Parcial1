@@ -81,6 +81,15 @@
     <td th:text="${curso.categoria}"></td>          <!-- ➕ -->
     <td th:text="${#strings.capitalize(curso.dificultad.name().toLowerCase())}"></td> <!-- ➕ -->
     <td th:if="${roles != null and roles.contains('Admin')}"> … </td>
+    <td th:if="${roles != null and roles.contains('Admin')}"><!-- Aborrar en caso de error -->
+          <a th:href="@{'/cursos/editar/' + ${curso.id}}" class="btn edit-btn">✏️ Editar</a>
+          <button type="button"
+                  class="btn delete-btn"
+                  th:attr="data-url=@{'/cursos/eliminar/' + ${curso.id}}"
+                  onclick="confirmarEliminacion(this)">
+            🗑️ Eliminar
+        </button>
+    </td>           <!-- Aborrar en caso de error -->
   </tr>
 </tbody>
   </table>
